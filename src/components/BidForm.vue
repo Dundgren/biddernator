@@ -5,21 +5,25 @@
             <select v-model="this.currentItem">
                 <option v-for="item in items">{{ item.name }}</option>
             </select>
+            <p>Enter bid:</p>
+            <input type="number" v-model="this.bid">
+            <button @click="placeBid">Place bid</button>
         </div>
         <div>
-            <BidList />
+            <h1>{{ currentItem }}</h1>
         </div>
     </div>
 </template>
 
 <script>
-import BidList from "./BidList.vue";
 import { initItemHandler } from "../helpers/init";
+import { convertCurrency } from "../helpers/currency";
 
 export default {
     data() {
         return {
             username: this.$store.state.username,
+            bid: "",
         }
     },
     computed: {
@@ -35,17 +39,20 @@ export default {
             },
             set(data) {
                 this.$store.commit("setCurrentItem", data);
-                console.log(this.$store.state.currentItem)
             }
         }
     },
     methods: {
         setUsername() {
             this.$store.commit("setUsername", this.username);
+        },
+        async placeBid() {
+            const userCurrency = this.$store.state.chosenCurrency;
+            const itemCurrency = this.itemHandler.getItem(this.currentItem).currency;
+            const convertedAmount = await convertCurrency(userCurrency, itemCurrency, this.bid)
+            
+            this.itemHandler.placeBid(convertedAmount, this.currentItem, this.username);
         }
-    },
-    components: {
-        BidList
     }
 }
 </script>

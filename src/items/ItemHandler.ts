@@ -12,13 +12,14 @@ export class ItemHandler {
     }
 
     public placeBid(bidAmount: number, itemName: string, bidderName: string) {
-        const bid =  { bidderName: bidAmount };
+        const bid = {};
 
+        bid[bidderName] = bidAmount;
         this._items[itemName].bids.push(bid);
     }
 
     public getItem(itemName: string) {
-        return this._items[itemName]
+        return this._items[itemName];
     }
 
     public getItems() {
