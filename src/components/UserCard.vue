@@ -27,7 +27,6 @@ export default {
             },
             set(data) {
                 this.$store.commit("setChosenCurrency", data);
-                console.log(this.$store.state.chosenCurrency)
             }
         }
     }

@@ -20,4 +20,8 @@ export class ItemHandler {
     public getItem(itemName: string) {
         return this._items[itemName]
     }
+
+    public getItems() {
+        return this._items;
+    }
 }
