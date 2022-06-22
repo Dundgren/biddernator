@@ -1,6 +1,15 @@
 <template>
     <div>
         <h1>{{ this.username }}</h1>
+        <h2>Chosen currency: {{ this.currency }}</h2>
+        <form>
+            <select v-model="this.currency">
+                <option value="USD">USD</option>
+                <option value="SEK">SEK</option>
+                <option value="GBP">GBP</option>
+                <option value="EUR">EUR</option>
+            </select>
+        </form>
     </div>
 </template>
 
@@ -11,9 +20,15 @@ export default {
             username: this.$store.state.username,
         }
     },
-    methods: {
-        setUsername() {
-            this.$store.commit("setUsername", this.username);
+    computed: {
+        currency: {
+            get() {
+                return this.$store.state.chosenCurrency;
+            },
+            set(data) {
+                this.$store.commit("setChosenCurrency", data);
+                console.log(this.$store.state.chosenCurrency)
+            }
         }
     }
 }
