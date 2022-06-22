@@ -1,11 +1,11 @@
 export class Item {
     readonly name: string;
     readonly currency: string;
-    public bids: Array<any>;
+    public bids: any[];
 
-    constructor(name: string, currency: string, bids: Array<any>) {
+    constructor(name: string, currency: string, bids: any[] = []) {
         this.name = name;
         this.currency = currency;
-        this.bids = []
+        this.bids = bids;
     }
 }
