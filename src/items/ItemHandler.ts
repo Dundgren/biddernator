@@ -12,7 +12,7 @@ export class ItemHandler {
     }
 
     public placeBid(bidAmount: number, itemName: string, bidderName: string) {
-        const bid = {};
+        const bid: {[key: string]: number} = {};
 
         bid[bidderName] = bidAmount;
         this._items[itemName].bids.push(bid);
