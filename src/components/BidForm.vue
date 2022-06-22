@@ -11,6 +11,10 @@
         </div>
         <div>
             <h1>{{ currentItem }}</h1>
+            <h2>Bids</h2>
+            <ul>
+                <li v-for="bid in currentBids">{{ bid }}</li>
+            </ul>
         </div>
     </div>
 </template>
@@ -24,6 +28,7 @@ export default {
         return {
             username: this.$store.state.username,
             bid: "",
+            currentBids: "",
         }
     },
     computed: {
@@ -40,18 +45,38 @@ export default {
             set(data) {
                 this.$store.commit("setCurrentItem", data);
             }
-        }
+        },
     },
     methods: {
         setUsername() {
             this.$store.commit("setUsername", this.username);
         },
         async placeBid() {
+            // Adds the bid to the currentItem
             const userCurrency = this.$store.state.chosenCurrency;
             const itemCurrency = this.itemHandler.getItem(this.currentItem).currency;
             const convertedAmount = await convertCurrency(userCurrency, itemCurrency, this.bid)
             
             this.itemHandler.placeBid(convertedAmount, this.currentItem, this.username);
+            this.setBids();
+            console.log(this.currentBids)
+        },
+        async setBids() {
+            // Loops through the bids array and converts all bids to user currency. Then sets currentBids.
+            const bids = this.itemHandler.getItem(this.currentItem).bids;
+            const itemCurrency = this.itemHandler.getItem(this.currentItem).currency;
+            const userCurrency = this.$store.state.chosenCurrency;
+
+            for (let i = 0; i < bids.length; i++) {
+                for (let key in bids[i]) {
+                    const bid = bids[i][key];
+                    const convertedCurrency = await convertCurrency(itemCurrency, userCurrency, bid);
+
+                    bids[i][key] = convertedCurrency;
+                }
+            }
+
+            this.currentBids = bids;
         }
     }
 }

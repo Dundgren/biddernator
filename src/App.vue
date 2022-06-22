@@ -5,6 +5,7 @@
 </script>
 
 <template>
+    <!-- Stupid simple "login" if username is set show bidding instead of login-->
     <div v-if="this.$store.state.username" id="main">
         <UserCard />
         <BidForm />

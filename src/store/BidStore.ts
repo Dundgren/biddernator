@@ -4,7 +4,7 @@ export const store = createStore({
     state() {
         return {
             username: "",
-            currentItem: "",
+            currentItem: "Vintage car",
             chosenCurrency: "",
         }
     },
